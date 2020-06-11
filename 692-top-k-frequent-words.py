@@ -1,6 +1,7 @@
 # https://leetcode.com/problems/top-k-frequent-words/
 from queue import PriorityQueue
-from testRunners import (TestCase, runAllTests)
+from testRunners import (TestCase, runAllTests, runTest)
+from collections import Counter
 
 testCases = [
     TestCase([["i", "love", "leetcode", "i", "love", "coding"], 2],
@@ -34,4 +35,13 @@ class Solution(object):
             q.put(WordCount(w, freqMap[w]))
         return [q.get().word for i in range(k)]
 
+def solution2(words, k):
+    count = Counter(words)
+    candidates = sorted(count.keys(), key = lambda w: (-count[w], w))[:k]
+    return candidates
+
+print("ATTEMPT 1:")
 runAllTests(testCases, Solution().topKFrequent)
+print("\nATTEMPT 2:")
+runAllTests(testCases, solution2)
+#  res = runTest(testCases[0], solution2, True)
